@@ -200,7 +200,6 @@ void loop() {
     Serial.print("E: ");
     Serial.println(distanceE);
     endMusic();
-    delay(5000);
 }
 void endMusic(){
   if(digitalRead(endSense)==HIGH){
