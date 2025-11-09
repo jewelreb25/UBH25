@@ -84,113 +84,130 @@ void loop() {
     delayMicroseconds(10);
     digitalWrite(trigPinE, LOW);
     echoTimeE= pulseIn(echoPinE, HIGH);
+
     distanceG= (echoTimeG*0.0343)/2;  //time x speed of sound in cm/micros
-    switch(distanceG){
-      case 4:
-      case 5 :
-        tone(G, 392);    //G note
-        break;
-      case 7:
-      case 8 :
-        tone(G, 440); //A note
-        break;
-      case 10:
-      case 11:
-        tone(G, 493.88); //B note
-        break;
-      case 13:
-      case 14:
-        tone(G, 523.25);   //C5 note
-        break;
-      default:
-        break;
-    } 
-     Serial.print("G:");
-     Serial.println(distanceG);
- 
+    if(distanceG>2 && distanceG < 90){
+      switch(distanceG){
+        case 4:
+        case 5 :
+          tone(G, 392);    //G note
+          break;
+        case 7:
+        case 8 :
+          tone(G, 440); //A note
+          break;
+        case 10:
+        case 11:
+          tone(G, 493.88); //B note
+          break;
+        case 13:
+        case 14:
+          tone(G, 523.25);   //C5 note
+          break;
+        default:
+          break;
+      }
+    }
+    else {
+        noTone(G);
+    }
 
     distanceC= (echoTimeC*0.0343)/2;  //time x speed of sound in cm/micros
-    switch(distanceC){
-      case 4:
-      case 5 :
-        tone(C, 261.63);    //G note
-        break;
-      case 7:
-      case 8 :
-        tone(C, 293.66); //C note
-        break;
-      case 10:
-      case 11:
-        tone(C, 329.63); //E note
-        break;
-      case 13:
-      case 14:
-        tone(C, 349.63);    //A note
-        break;
-      default:
-        break;
+    if (distanceG > 3 && distanceG < 90) { 
+      switch(distanceC){
+        case 4:
+        case 5 :
+          tone(C, 261.63);    //C note
+          break;
+        case 7:
+        case 8 :
+          tone(C, 293.66); //D4 note
+          break;
+        case 10:
+        case 11:
+          tone(C, 329.63); //E note
+          break;
+        case 13:
+        case 14:
+          tone(C, 349.23);    //F4 note
+          break;
+        default:
+          break;
+      }
+    }
+    else {
+      noTone(C);
     }
     Serial.print("C:");
     Serial.println(distanceC);
  
 
     distanceA= (echoTimeA*0.0343)/2;  //time x speed of sound in cm/micros
-    switch(distanceA){
-      case 2:
-      case 3 :
-        tone(A, 392);    //A note
-        break;
-      case 5:
-      case 6 :
-        tone(A, 493.88); //B note
-        break;
-      case 8:
-      case 9:
-        tone(A, 523.25); //C5 note
-        break;
-      case 11:
-      case 12:
-        tone(A, 587.33); //D5 note
-        break;
-      default:
-        break;
+    if (distanceG > 3 && distanceG < 90) { 
+      switch(distanceA){
+        case 2:
+        case 3 :
+          analogWrite(A, 100);    //A note
+          break;
+        case 5:
+        case 6 :
+          analogWrite(A, 150); //B note
+          break;
+        case 8:
+        case 9:
+          analogWrite(A, 175); //C5 note
+          break;
+        case 11:
+        case 12:
+          analogWrite(A, 200); //D5 note
+          break;
+        default:
+          break;
+      }
+    }
+    else{
+      noTone(A);
     }
     Serial.print("A: ");
     Serial.println(distanceA);
- 
 
     distanceE= (echoTimeE*0.0343)/2;  //time x speed of sound in cm/micros
-    switch(distanceE){
-      case 4:
-      case 5 :
-        tone(E, 100);    //E note
-        break;
-      case 7:
-      case 8 :
-        tone(E, 150); //F note
-        break;
-      case 10:
-      case 11:
-        tone(E, 175); //G note
-        break;
-      case 13:
-      case 14:
-        tone(E, 200);    //A note
-        break;
-      default:
-        break;
+    if (distanceE > 3 && distanceE < 70) {
+      switch(distanceE){
+        case 4:
+        case 5 :
+          analogWrite(E, 100);    //E note
+          break;
+        case 7:
+        case 8 :
+          analogWrite(E, 150); //F note
+          break;
+        case 10:
+        case 11:
+          analogWrite(E, 175); //G note
+          break;
+        case 13:
+        case 14:
+          analogWrite(E, 200);    //A note
+          break;
+        default:
+          break;
+      }
+    }
+    else{
+      noTone(E);
     }
     Serial.print("E: ");
     Serial.println(distanceE);
     endMusic();
-    // delay(5000);
+    delay(5000);
 }
 void endMusic(){
   if(digitalRead(endSense)==HIGH){
-    noTone(E);
-    noTone(C);
-    noTone(A);
-    noTone(G);
+    analogWrite(E, 0);
+    analogWrite(C, 0);
+    analogWrite(G, 0);
+    analogWrite(A, 0);
     delay(500);
   }
 }
